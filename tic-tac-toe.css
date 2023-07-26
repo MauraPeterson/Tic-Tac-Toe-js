@@ -1,0 +1,52 @@
+body{
+  background-color: black;
+  color: lightpink;
+}
+
+.title{
+  font-family: 'Franklin Gothic Medium';
+  font-size: 60px;
+  text-align: center;
+}
+
+.game-board{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  width: 50%;
+  margin-left: 25%;
+  justify-self: center;
+  justify-content: center;
+}
+
+.game-button{
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  background-color: lightpink;
+  justify-self: center;
+  font-size: 90px;
+  border-radius: 10px;
+}
+
+.turn-text{
+  font-family: 'Franklin Gothic Medium';
+  text-align: center;
+  font-size: 50px;
+}
+
+.start-button-container{
+  text-align: center;
+}
+
+.start-button{
+  background-color: lightpink;
+  border: none;
+  border-radius: 10px;
+  width: 100px;
+  height: 50px;
+  font-family: 'Franklin Gothic Medium';
+  font-size: 25px;
+}
+
+
+

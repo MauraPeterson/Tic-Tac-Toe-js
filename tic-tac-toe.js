@@ -57,11 +57,8 @@ function getHtml(){
   let i = 0;
   gameBoard.forEach((element) => {
     i++;
-    html += `<button class="js-game-button">${element}</button>`;
+    html += `<button class="game-button js-game-button">${element}</button>`;
 
-    if(i % 3 === 0){
-      html +='<br>';
-    }
   });
   return html;
 }
@@ -85,7 +82,7 @@ function checkWin(){
 }
 
 function checkDiaganals(){
-  if(gameBoard[4] === '_'){
+  if(gameBoard[4] === ''){
     return false;
   }
   if(gameBoard[0] === gameBoard[4] 
@@ -105,7 +102,7 @@ function checkRows(){
     let row = i * 3;
     if(gameBoard[0 + row] === gameBoard[1 + row] 
       && gameBoard[1 + row] === gameBoard[2 + row]
-      && gameBoard[0 + row] !== '_'){
+      && gameBoard[0 + row] !== ''){
       return true;
     }
   }
@@ -118,7 +115,7 @@ function checkColumns(){
   for(let i = 0; i < columns; i++){
     if(gameBoard[0 + i] === gameBoard[3 + i] 
       && gameBoard[3 + i] === gameBoard[6 + i]
-      && gameBoard[0 + i] !== '_'){
+      && gameBoard[0 + i] !== ''){
       return true;
     }
   }
@@ -127,7 +124,7 @@ function checkColumns(){
 }
 
 function resetBoard(){
-  gameBoard = ['_', '_', '_',
-              '_', '_', '_',
-              '_', '_', '_'];
+  gameBoard = ['', '', '',
+              '', '', '',
+              '', '', ''];
 }
