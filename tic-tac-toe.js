@@ -62,8 +62,7 @@ function choice(index){
   gameBoard[index] = currentPlayer;
   console.log(index);
   console.log(gameBoard);
-  checkWin();
-  renderBoard();
+  completeTurn();
   if(isAI){
     getComputerMove();
   }
@@ -116,18 +115,30 @@ function nextPlayer(player){
   }
 }
 
-
-function checkWin(){
+function checkWin(player){
   if(checkColumns() || checkRows() || checkDiaganals()){
+    return player;
+  } else if(checkTie()) {
+    return 'tie';
+  } else {
+    return null;
+  }
+}
+
+
+function completeTurn(){
+  const result = checkWin(currentPlayer);
+  if(result === currentPlayer){
     gameWon = true;
     renderTurnText(currentPlayer);
-  } else if(gameTie()){
+  } else if(result === 'tie'){
     gameWon = true;
     winMove = [null, null, null];
     renderTurnText('Tie');
   } else {
     renderTurnText(nextPlayer(currentPlayer));
   }
+  renderBoard();
 }
 
 function checkDiaganals(){
@@ -176,7 +187,7 @@ function checkColumns(){
   return false;
 }
 
-function gameTie(){
+function checkTie(){
   let isTie = true;
   gameBoard.forEach((element) => {
     if(element === ''){
@@ -199,7 +210,7 @@ function getComputerMove(){
     // Is spot available?
     if(element === ''){
       gameBoard[i] = 'O';
-      let score = minimax(gameBoard);
+      let score = minimax(gameBoard, 0, ai, true);
       gameBoard[i] = '';
       // Is spot best?
       if(score > bestScore){
@@ -210,10 +221,39 @@ function getComputerMove(){
   });
   // Play best move
   gameBoard[bestMove] = 'O';
-  renderBoard();
-  checkWin();
+  completeTurn();
 }
 
-function minimax(board){
+let scores = {
+  O: 1,
+  X: -1,
+  tie: 0
+}
+
+function minimax(board, depth, player, isMaxing){
+  let result = checkWin(player);
+  let score;
+  let bestScore;
+
+  if(result){
+    score = scores[result];
+    return score;
+  }
+
+  if(isMaxing){
+    bestScore = -Infinity;
+    board.forEach((element, i) => {
+      if(element === ''){
+        board[i] = ai;
+        score = minimax(board, depth + 1, false);
+        board[i] = '';
+        if(score > bestScore){
+          bestScore = score;
+        }
+      }
+    });
+    return bestScore;
+  }
+
   return 1;
 }
