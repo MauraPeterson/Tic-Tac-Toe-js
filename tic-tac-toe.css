@@ -22,10 +22,22 @@ body{
   width: 100px;
   height: 100px;
   margin: 5px;
-  background-color: lightpink;
   justify-self: center;
   font-size: 90px;
   border-radius: 10px;
+}
+
+.game-button-play{
+  background-color: lightpink;
+  cursor: pointer;
+}
+
+.game-button-win{
+  background-color: rgb(142, 99, 106);
+}
+
+.game-button-win-move{
+  background-color: lightpink;
 }
 
 .turn-text{
@@ -42,10 +54,11 @@ body{
   background-color: lightpink;
   border: none;
   border-radius: 10px;
-  width: 100px;
+  width: 150px;
   height: 50px;
   font-family: 'Franklin Gothic Medium';
   font-size: 25px;
+  cursor: pointer;
 }
 
 
