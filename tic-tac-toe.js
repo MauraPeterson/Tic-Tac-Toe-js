@@ -230,6 +230,7 @@ let scores = {
   tie: 0
 }
 
+// video : 16:09
 function minimax(board, depth, player, isMaxing){
   let result = checkWin(player);
   let score;
