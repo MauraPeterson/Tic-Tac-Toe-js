@@ -18,8 +18,10 @@ function gameAI(){
   renderBoard();
 
   currentPlayer = pickFirstPlayer();
-  if(currentPlayer === ai){
+  if(currentPlayer === ai) {
     getComputerMove();
+  } else{
+    renderTurnText(currentPlayer); 
   }
 }
 
@@ -60,13 +62,10 @@ function renderTurnText(player){
 
 function choice(index){
   gameBoard[index] = currentPlayer;
-  console.log(index);
-  console.log(gameBoard);
   completeTurn();
-  if(isAI){
+  if(isAI && !gameWon){
     getComputerMove();
   }
-  
 }
 
 function renderBoard(){
@@ -210,7 +209,7 @@ function getComputerMove(){
     // Is spot available?
     if(element === ''){
       gameBoard[i] = 'O';
-      let score = minimax(gameBoard, 0, ai, true);
+      let score = minimax(gameBoard, 0, 'X', -Infinity, Infinity, false);
       gameBoard[i] = '';
       // Is spot best?
       if(score > bestScore){
@@ -230,9 +229,8 @@ let scores = {
   tie: 0
 }
 
-// video : 16:09
-function minimax(board, depth, player, isMaxing){
-  let result = checkWin(player);
+function minimax(board, depth, player, alpha, beta, isMaxing){
+  let result = checkWin(nextPlayer(player));
   let score;
   let bestScore;
 
@@ -243,18 +241,32 @@ function minimax(board, depth, player, isMaxing){
 
   if(isMaxing){
     bestScore = -Infinity;
-    board.forEach((element, i) => {
-      if(element === ''){
+    for(let i = 0; i < board.length; i++){
+      if(board[i] === ''){
         board[i] = ai;
-        score = minimax(board, depth + 1, false);
+        score = minimax(board, depth + 1,nextPlayer(player), alpha, beta, false);
         board[i] = '';
-        if(score > bestScore){
-          bestScore = score;
+        bestScore = Math.max(score, bestScore);
+        alpha = Math.max(score, alpha);
+        if(beta <= alpha){
+          break;
         }
       }
-    });
-    return bestScore;
+    }
+  } else {
+    bestScore = Infinity;
+    for(let i = 0; i < board.length; i++){
+      if(board[i] === ''){
+        board[i] = 'X';
+        score = minimax(board, depth + 1, nextPlayer(player), alpha, beta, true);
+        board[i] = '';
+        bestScore = Math.min(score, bestScore);
+        beta = Math.min(beta, eval);
+        if(beta <= alpha){
+          break;
+        }
+      }
+    }
   }
-
-  return 1;
+  return bestScore;
 }
